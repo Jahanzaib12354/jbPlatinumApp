@@ -1668,6 +1668,10 @@ const FirstHomeScreen = ({ navigation }) => {
                   navigation.navigate(tab.screen);
                 }
               }}
+//               onPress={() => {
+//   setActiveTab(tab.key);
+//   navigation.navigate(tab.screen);
+// }}
             >
               <MaterialIcons
                 name={tab.icon}
