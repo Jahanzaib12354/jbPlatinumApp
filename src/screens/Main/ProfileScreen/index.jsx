@@ -1,5 +1,217 @@
 
-import React, {useState} from 'react';
+// import React, {useState} from 'react';
+
+// import {
+//   View,
+//   Text,
+//   TouchableOpacity,
+//   ScrollView,
+//   StatusBar,
+// } from 'react-native';
+
+// import LinearGradient from 'react-native-linear-gradient';
+// import Icon from 'react-native-vector-icons/Ionicons';
+// import {useSelector} from 'react-redux';
+// import styles from './styles'
+// const ProfileScreen = ({navigation}) => {
+//   const user = useSelector(
+//     state =>
+//       state.auth?.user ||
+//       state.auth?.userData ||
+//       state.user?.user ||
+//       {},
+//   );
+
+//   const [profile, setProfile] = useState({
+//     name:
+//       user.name ||
+//       user.full_name ||
+//       user.first_name ||
+//       '',
+//     email: user.email || '',
+//     phone:
+//       user.phone ||
+//       user.phone_number ||
+//       '',
+//   });
+
+//   const menuItems = [
+//     {
+//       title: 'Personal Information',
+//       icon: 'person-outline',
+//     },
+//     {
+//       title: 'My Events',
+//       icon: 'calendar-outline',
+//     },
+//     {
+//       title: 'Favorite Events',
+//       icon: 'heart-outline',
+//     },
+//     {
+//       title: 'Notifications',
+//       icon: 'notifications-outline',
+//     },
+//     {
+//       title: 'Privacy & Security',
+//       icon: 'lock-closed-outline',
+//     },
+//     {
+//       title: 'Help & Support',
+//       icon: 'help-circle-outline',
+//     },
+//   ];
+
+//   return (
+   
+//         <LinearGradient
+//       colors={['#24444D', '#050A0C', '#000000', '#000000', '#4B0F57']}
+//       locations={[0, 0.25, 0.5, 0.7, 1]}
+//       start={{x: 0, y: 0}}
+//       end={{x: 1, y: 1}}
+//       style={styles.container}>
+
+
+//       <StatusBar barStyle="light-content" />
+
+//       <ScrollView showsVerticalScrollIndicator={false}>
+
+//         {/* Header */}
+//         <View style={styles.header}>
+//           <Text style={styles.headerTitle}>My Profile</Text>
+
+        
+//         </View>
+
+//         {/* Profile Information */}
+//         <View style={styles.profileContainer}>
+
+//           <View style={styles.avatar}>
+//             <Icon
+//               name="person"
+//               size={55}
+//               color="#FFFFFF"
+//             />
+//           </View>
+
+//           <Text style={styles.name}>
+//             {profile.name || 'Your Name'}
+//           </Text>
+
+//           <Text style={styles.email}>
+//             {profile.email || 'Your Email'}
+//           </Text>
+
+//           <View style={styles.memberBadge}>
+//             <Text style={styles.memberText}>Member</Text>
+//           </View>
+
+//           <TouchableOpacity
+//             style={styles.editButton}
+//             onPress={() =>
+//               navigation.navigate('EditProfileScreen', {
+//                 profile: profile,
+//                 onSave: updatedProfile => {
+//                   setProfile(updatedProfile);
+//                 },
+//               })
+//             }>
+
+//             <Icon
+//               name="create-outline"
+//               size={19}
+//               color="#FFFFFF"
+//             />
+
+//             <Text style={styles.editButtonText}>
+//               Edit Profile
+//             </Text>
+//           </TouchableOpacity>
+//         </View>
+
+//         {/* Account Information */}
+//         <View style={styles.section}>
+//           <Text style={styles.sectionTitle}>
+//             Account Information
+//           </Text>
+
+//           <View style={styles.infoCard}>
+//             <View style={styles.infoRow}>
+//               <Icon
+//                 name="mail-outline"
+//                 size={21}
+//                 color="#AAB2D5"
+//               />
+
+//               <View style={styles.infoTextContainer}>
+//                 <Text style={styles.infoLabel}>Email Address</Text>
+//                 <Text style={styles.infoValue}>
+//                   {profile.email || 'Not available'}
+//                 </Text>
+//               </View>
+//             </View>
+
+//             <View style={styles.infoDivider} />
+
+//             <View style={styles.infoRow}>
+//               <Icon
+//                 name="call-outline"
+//                 size={21}
+//                 color="#AAB2D5"
+//               />
+
+//               <View style={styles.infoTextContainer}>
+//                 <Text style={styles.infoLabel}>Phone Number</Text>
+//                 <Text style={styles.infoValue}>
+//                   {profile.phone || 'Not available'}
+//                 </Text>
+//               </View>
+//             </View>
+//           </View>
+//         </View>
+
+//         {/* My Account */}
+//         <View style={styles.section}>
+//           <Text style={styles.sectionTitle}>My Account</Text>
+
+//           <View style={styles.menuCard}>
+//             {menuItems.map((item, index) => (
+//               <TouchableOpacity
+//                 key={index}
+//                 style={styles.menuItem}>
+
+//                 <View style={styles.menuLeft}>
+//                   <Icon
+//                     name={item.icon}
+//                     size={21}
+//                     color="#AAB2D5"
+//                   />
+
+//                   <Text style={styles.menuText}>
+//                     {item.title}
+//                   </Text>
+//                 </View>
+
+//                 <Icon
+//                   name="chevron-forward"
+//                   size={20}
+//                   color="#AAB2D5"
+//                 />
+//               </TouchableOpacity>
+//             ))}
+//           </View>
+//         </View>
+
+//       </ScrollView>
+//     </LinearGradient>
+//   );
+// };
+
+// export default ProfileScreen;
+
+
+
+import React, {useState, useEffect} from 'react';
 
 import {
   View,
@@ -7,33 +219,83 @@ import {
   TouchableOpacity,
   ScrollView,
   StatusBar,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import axios from 'axios';
+
 import {useSelector} from 'react-redux';
-import styles from './styles'
+
+import styles from './styles';
+
+const BASE_URL = 'https://xhcqhdxq-8006.inc1.devtunnels.ms';
+
 const ProfileScreen = ({navigation}) => {
-  const user = useSelector(
-    state =>
-      state.auth?.user ||
-      state.auth?.userData ||
-      state.user?.user ||
-      {},
-  );
+
+  // Redux se user aur token lena
+  const {user, token} = useSelector(state => state.auth);
 
   const [profile, setProfile] = useState({
-    name:
-      user.name ||
-      user.full_name ||
-      user.first_name ||
-      '',
-    email: user.email || '',
-    phone:
-      user.phone ||
-      user.phone_number ||
-      '',
+    name: '',
+    email: '',
+    phone: '',
   });
+
+  const [loading, setLoading] = useState(true);
+
+  // Get Profile API
+  const getProfile = async () => {
+    try {
+      setLoading(true);
+
+      const res = await axios.get(`${BASE_URL}/getProfile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
+        },
+      });
+
+      console.log('GET PROFILE RESPONSE:', res.data);
+
+      if (res.data.success === true) {
+        const profileData = res.data.profile;
+
+        setProfile({
+          name: profileData.name || '',
+          email: profileData.email || '',
+          phone: profileData.phone_number || '',
+        });
+      } else {
+        Alert.alert('Error', 'Unable to load profile information');
+      }
+
+    } catch (error) {
+      console.log(
+        'GET PROFILE ERROR:',
+        error.response?.data || error.message,
+      );
+
+      Alert.alert(
+        'Error',
+        error.response?.data?.message ||
+          'Unable to fetch profile. Please try again.',
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (token) {
+      getProfile();
+    } else {
+      setLoading(false);
+      Alert.alert('Error', 'Please login again.');
+    }
+  }, [token]);
 
   const menuItems = [
     {
@@ -55,6 +317,7 @@ const ProfileScreen = ({navigation}) => {
     {
       title: 'Privacy & Security',
       icon: 'lock-closed-outline',
+      screen: 'ChangePasswordScreen',
     },
     {
       title: 'Help & Support',
@@ -64,8 +327,12 @@ const ProfileScreen = ({navigation}) => {
 
   return (
     <LinearGradient
-      colors={['#10152F', '#171D3D', '#22294F']}
-      style={styles.container}>
+      colors={['#24444D', '#050A0C', '#000000', '#000000', '#4B0F57']}
+      locations={[0, 0.25, 0.5, 0.7, 1]}
+      start={{x: 0, y: 0}}
+      end={{x: 1, y: 1}}
+      style={styles.container}
+    >
 
       <StatusBar barStyle="light-content" />
 
@@ -74,134 +341,163 @@ const ProfileScreen = ({navigation}) => {
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>My Profile</Text>
-
-          {/* <TouchableOpacity>
-            <Icon
-              name="settings-outline"
-              size={25}
-              color="#FFFFFF"
-            />
-          </TouchableOpacity> */}
         </View>
 
-        {/* Profile Information */}
-        <View style={styles.profileContainer}>
+        {loading ? (
+          <ActivityIndicator
+            size="large"
+            color="#FFFFFF"
+            style={{marginTop: 50}}
+          />
+        ) : (
+          <>
 
-          <View style={styles.avatar}>
-            <Icon
-              name="person"
-              size={55}
-              color="#FFFFFF"
-            />
-          </View>
+            {/* Profile Information */}
+            <View style={styles.profileContainer}>
 
-          <Text style={styles.name}>
-            {profile.name || 'Your Name'}
-          </Text>
-
-          <Text style={styles.email}>
-            {profile.email || 'Your Email'}
-          </Text>
-
-          <View style={styles.memberBadge}>
-            <Text style={styles.memberText}>Member</Text>
-          </View>
-
-          <TouchableOpacity
-            style={styles.editButton}
-            onPress={() =>
-              navigation.navigate('EditProfileScreen', {
-                profile: profile,
-                onSave: updatedProfile => {
-                  setProfile(updatedProfile);
-                },
-              })
-            }>
-
-            <Icon
-              name="create-outline"
-              size={19}
-              color="#FFFFFF"
-            />
-
-            <Text style={styles.editButtonText}>
-              Edit Profile
-            </Text>
-          </TouchableOpacity>
-        </View>
-
-        {/* Account Information */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>
-            Account Information
-          </Text>
-
-          <View style={styles.infoCard}>
-            <View style={styles.infoRow}>
-              <Icon
-                name="mail-outline"
-                size={21}
-                color="#AAB2D5"
-              />
-
-              <View style={styles.infoTextContainer}>
-                <Text style={styles.infoLabel}>Email Address</Text>
-                <Text style={styles.infoValue}>
-                  {profile.email || 'Not available'}
-                </Text>
+              <View style={styles.avatar}>
+                <Icon
+                  name="person"
+                  size={55}
+                  color="#FFFFFF"
+                />
               </View>
-            </View>
 
-            <View style={styles.infoDivider} />
+              <Text style={styles.name}>
+                {profile.name || 'Your Name'}
+              </Text>
 
-            <View style={styles.infoRow}>
-              <Icon
-                name="call-outline"
-                size={21}
-                color="#AAB2D5"
-              />
+              <Text style={styles.email}>
+                {profile.email || 'Your Email'}
+              </Text>
 
-              <View style={styles.infoTextContainer}>
-                <Text style={styles.infoLabel}>Phone Number</Text>
-                <Text style={styles.infoValue}>
-                  {profile.phone || 'Not available'}
-                </Text>
+              <View style={styles.memberBadge}>
+                <Text style={styles.memberText}>Member</Text>
               </View>
-            </View>
-          </View>
-        </View>
 
-        {/* My Account */}
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>My Account</Text>
-
-          <View style={styles.menuCard}>
-            {menuItems.map((item, index) => (
+              {/* Edit Profile Button */}
               <TouchableOpacity
-                key={index}
-                style={styles.menuItem}>
+                style={styles.editButton}
+                onPress={() =>
+                  navigation.navigate('EditProfileScreen', {
+                    profile: profile,
+                    onSave: updatedProfile => {
+                      setProfile(updatedProfile);
+                    },
+                  })
+                }
+              >
+                <Icon
+                  name="create-outline"
+                  size={19}
+                  color="#FFFFFF"
+                />
 
-                <View style={styles.menuLeft}>
+                <Text style={styles.editButtonText}>
+                  Edit Profile
+                </Text>
+              </TouchableOpacity>
+
+            </View>
+
+            {/* Account Information */}
+            <View style={styles.section}>
+
+              <Text style={styles.sectionTitle}>
+                Account Information
+              </Text>
+
+              <View style={styles.infoCard}>
+
+                {/* Email */}
+                <View style={styles.infoRow}>
                   <Icon
-                    name={item.icon}
+                    name="mail-outline"
                     size={21}
                     color="#AAB2D5"
                   />
 
-                  <Text style={styles.menuText}>
-                    {item.title}
-                  </Text>
+                  <View style={styles.infoTextContainer}>
+                    <Text style={styles.infoLabel}>
+                      Email Address
+                    </Text>
+
+                    <Text style={styles.infoValue}>
+                      {profile.email || 'Not available'}
+                    </Text>
+                  </View>
                 </View>
 
-                <Icon
-                  name="chevron-forward"
-                  size={20}
-                  color="#AAB2D5"
-                />
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
+                <View style={styles.infoDivider} />
+
+                {/* Phone */}
+                <View style={styles.infoRow}>
+                  <Icon
+                    name="call-outline"
+                    size={21}
+                    color="#AAB2D5"
+                  />
+
+                  <View style={styles.infoTextContainer}>
+                    <Text style={styles.infoLabel}>
+                      Phone Number
+                    </Text>
+
+                    <Text style={styles.infoValue}>
+                      {profile.phone || 'Not available'}
+                    </Text>
+                  </View>
+                </View>
+
+              </View>
+            </View>
+
+            {/* My Account */}
+            <View style={styles.section}>
+
+              <Text style={styles.sectionTitle}>
+                My Account
+              </Text>
+
+              <View style={styles.menuCard}>
+
+                {menuItems.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={styles.menuItem}
+                    onPress={() => {
+                      if (item.screen) {
+                        navigation.navigate(item.screen);
+                      }
+                    }}
+                  >
+
+                    <View style={styles.menuLeft}>
+                      <Icon
+                        name={item.icon}
+                        size={21}
+                        color="#AAB2D5"
+                      />
+
+                      <Text style={styles.menuText}>
+                        {item.title}
+                      </Text>
+                    </View>
+
+                    <Icon
+                      name="chevron-forward"
+                      size={20}
+                      color="#AAB2D5"
+                    />
+
+                  </TouchableOpacity>
+                ))}
+
+              </View>
+            </View>
+
+          </>
+        )}
 
       </ScrollView>
     </LinearGradient>

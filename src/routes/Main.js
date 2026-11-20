@@ -44,6 +44,7 @@ import BecomeSponsor from '../screens/Main/BecomeSponsor';
 import InviteUsScreen from '../screens/Main/InviteUsScreen';
 import ProfileScreen from '../screens/Main/ProfileScreen';
 import EditProfileScreen from '../screens/Main/EditProfileScreen'
+import ChangePasswordScreen from '../screens/Main/ChangePasswordScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -100,6 +101,11 @@ const HomeStack = () => {
        <Stack.Screen
         name="EditProfileScreen"
         component={EditProfileScreen}
+      />
+      
+      <Stack.Screen
+        name="ChangePasswordScreen"
+        component={ChangePasswordScreen}
       />
     </Stack.Navigator>
   );
