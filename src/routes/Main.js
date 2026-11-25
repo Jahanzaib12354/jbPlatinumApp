@@ -45,6 +45,8 @@ import InviteUsScreen from '../screens/Main/InviteUsScreen';
 import ProfileScreen from '../screens/Main/ProfileScreen';
 import EditProfileScreen from '../screens/Main/EditProfileScreen'
 import ChangePasswordScreen from '../screens/Main/ChangePasswordScreen'
+import DeleteProfileScreen from '../screens/Main/DeleteProfileScreen'
+import WebViewScreen from '../screens/Main/WebViewScreen'
 
 const Stack = createNativeStackNavigator();
 
@@ -106,6 +108,14 @@ const HomeStack = () => {
       <Stack.Screen
         name="ChangePasswordScreen"
         component={ChangePasswordScreen}
+      />
+      <Stack.Screen
+        name="DeleteProfileScreen"
+        component={DeleteProfileScreen}
+      />
+       <Stack.Screen
+        name="WebViewScreen"
+        component={WebViewScreen}
       />
     </Stack.Navigator>
   );
